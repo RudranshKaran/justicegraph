@@ -1,0 +1,42 @@
+# JusticeGraph - Phase 1: Data Collection and Preprocessing
+
+## Core Dependencies
+sqlalchemy
+pandas
+numpy
+
+## Web Scraping
+requests
+beautifulsoup4
+lxml
+urllib3
+
+## Workflow Orchestration
+prefect
+
+## Database Drivers
+psycopg2-binary  # PostgreSQL
+pymongo          # MongoDB (alternative)
+
+## PDF Processing
+PyPDF2
+pdfplumber
+
+## Data Validation
+great-expectations  # Optional: advanced validation
+
+## Environment Management
+python-dotenv
+
+## Utilities
+pyyaml
+python-dateutil
+
+## Testing
+pytest
+pytest-cov
+
+## Development
+black
+flake8
+mypy

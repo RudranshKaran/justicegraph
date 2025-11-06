@@ -1,0 +1,96 @@
+# Data source configurations for JusticeGraph
+# This file defines metadata for all judicial data sources
+
+sources:
+  # Delhi High Court
+  - name: "Delhi High Court"
+    code: "DL-HC"
+    type: "High Court"
+    state: "Delhi"
+    base_url: "https://delhihighcourt.nic.in"
+    endpoints:
+      cause_list: "/causelists"
+      case_status: "/case_status"
+      judgments: "/judgments"
+    update_frequency: "daily"
+    active: true
+    notes: "Cause lists updated daily, usually by 9 AM"
+
+  # Bombay High Court
+  - name: "Bombay High Court"
+    code: "MH-HC"
+    type: "High Court"
+    state: "Maharashtra"
+    base_url: "https://bombayhighcourt.nic.in"
+    endpoints:
+      cause_list: "/causelists"
+      case_status: "/case_status"
+    update_frequency: "daily"
+    active: true
+    notes: "Covers Mumbai and Goa jurisdiction"
+
+  # Supreme Court of India
+  - name: "Supreme Court of India"
+    code: "SC-INDIA"
+    type: "Supreme Court"
+    state: "Delhi"
+    base_url: "https://main.sci.gov.in"
+    endpoints:
+      cause_list: "/php/case_status/case_status.php"
+      judgments: "/supremecourt/judgments"
+    update_frequency: "daily"
+    active: true
+    notes: "Central apex court"
+
+  # eCourts Services
+  - name: "eCourts Services"
+    code: "ECOURTS"
+    type: "Portal"
+    state: "All India"
+    base_url: "https://services.ecourts.gov.in/ecourtindia_v6"
+    endpoints:
+      case_status: "/case_details"
+      cause_list: "/cause_list"
+    update_frequency: "realtime"
+    active: true
+    notes: "National portal for district and taluka courts"
+
+  # National Judicial Data Grid
+  - name: "National Judicial Data Grid"
+    code: "NJDG"
+    type: "Data Portal"
+    state: "All India"
+    base_url: "https://njdg.ecourts.gov.in/njdg_public"
+    endpoints:
+      statistics: "/stats"
+    update_frequency: "weekly"
+    active: true
+    notes: "Aggregated statistics, not individual cases"
+
+  # IndianKanoon
+  - name: "IndianKanoon"
+    code: "INDIAN-KANOON"
+    type: "Repository"
+    state: "All India"
+    base_url: "https://indiankanoon.org"
+    endpoints:
+      search: "/search"
+      doc: "/doc"
+    update_frequency: "continuous"
+    active: false
+    notes: "Public repository, third-party source"
+
+# Scraping configuration
+scraping_config:
+  default_timeout: 60
+  retry_attempts: 3
+  rate_limit_delay: 2.0
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  verify_ssl: true
+
+# Data retention policy
+retention_policy:
+  bronze_layer_days: 90
+  silver_layer_days: 365
+  gold_layer_days: -1  # Keep indefinitely
+  log_retention_days: 30
