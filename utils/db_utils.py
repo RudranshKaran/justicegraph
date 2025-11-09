@@ -360,3 +360,24 @@ def get_database_manager() -> DatabaseManager:
         >>> db.create_tables()
     """
     return DatabaseManager()
+
+
+def get_db_session() -> Session:
+    """
+    Get a new database session.
+    
+    IMPORTANT: Caller is responsible for closing the session.
+    Prefer using DatabaseManager().get_session() context manager when possible.
+    
+    Returns:
+        SQLAlchemy Session instance
+        
+    Example:
+        >>> session = get_db_session()
+        >>> try:
+        ...     cases = session.query(Case).all()
+        ... finally:
+        ...     session.close()
+    """
+    db = DatabaseManager()
+    return db.SessionLocal()

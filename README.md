@@ -1,102 +1,123 @@
-# JusticeGraph - Phase 1: Data Collection and Preprocessing
+# JusticeGraph - Intelligent Judicial Analytics Platform
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Phase](https://img.shields.io/badge/Phase-2%20Complete-success)](https://github.com/RudranshKaran/justicegraph)
 
-JusticeGraph is a data-driven platform designed to assist the Indian judicial system in reducing case backlogs and improving transparency through data science and AI.
+JusticeGraph is a comprehensive data-driven platform designed to assist the Indian judicial system in reducing case backlogs, optimizing hearing schedules, and improving transparency through data science, machine learning, and intelligent optimization.
 
-**Phase 1** focuses on building an automated data collection and preprocessing pipeline for judicial data from public sources.
+## 🎯 Project Vision
 
-## 🎯 Project Objectives
+Transform judicial operations through:
+- **Automated Data Collection** - Scrape and process judicial data from public sources
+- **Intelligent Analytics** - Identify bottlenecks, trends, and performance metrics
+- **AI-Powered Prioritization** - Rank cases by urgency using ML models
+- **Optimized Scheduling** - Generate efficient hearing calendars with constraint programming
+- **Predictive Insights** - Forecast case durations and resource needs
 
-- Automate collection of judicial data from eCourts, NJDG portals, and court websites
-- Parse and structure raw data (HTML/PDF/JSON) into analysis-ready formats
-- Normalize and clean judicial entities (cases, courts, judges, hearings)
-- Store processed data in PostgreSQL database
-- Implement automated data quality checks
-- Prepare foundation for AI-driven case prioritization (Phase 2)
+## 📊 Project Status
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| **Phase 1** | ✅ Complete | Data collection, parsing, and ETL pipeline |
+| **Phase 2** | ✅ Complete | EDA, ML models, prioritization, and scheduling optimization |
+| **Phase 3** | 🔄 Planned | Web dashboard, real-time analytics, API development |
+
+---
+
+## 🚀 Quick Start
+
+### For Phase 2 (Analytics & Optimization)
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Start exploring with Jupyter
+jupyter notebook analysis/eda_overview.ipynb
+
+# Or run quick analytics
+python -c "from modeling.priority_model import calculate_priority_scores; df = calculate_priority_scores(); print(f'Prioritized {len(df)} cases')"
+```
+
+**📘 See [PHASE2_QUICKSTART.md](PHASE2_QUICKSTART.md) for detailed Phase 2 guide**
+
+---
 
 ## 📁 Project Structure
 
 ```
 JusticeGraph/
 │
-├── data/                    # Data storage (bronze/silver/gold layers)
-│   ├── bronze/             # Raw scraped data
-│   ├── silver/             # Parsed and structured data
-│   └── gold/               # Analysis-ready normalized data
+├── 📊 analysis/                # Phase 2: Exploratory Data Analysis
+│   ├── case_duration_analysis.py    # Case duration metrics
+│   ├── backlog_trends.py            # Backlog and disposal rates
+│   ├── court_performance.py         # Court efficiency analysis
+│   └── eda_overview.ipynb           # Interactive EDA notebook
 │
-├── models/                  # Data models
-│   └── data_models.py      # SQLAlchemy ORM models
+├── 🤖 modeling/                # Phase 2: ML Models
+│   ├── priority_model.py            # Case prioritization engine
+│   ├── duration_prediction.py       # ML duration forecasting
+│   └── model_utils.py               # Feature engineering utilities
 │
-├── ingest/                  # Web scraping modules
+├── ⚙️ optimization/            # Phase 2: Scheduling Engine
+│   ├── scheduler.py                 # Intelligent hearing scheduler
+│   ├── constraint_builder.py        # Scheduling constraints
+│   └── optimization_utils.py        # Validation and metrics
+│
+├── 📈 visualization/           # Phase 2: Charts & Dashboards
+│   ├── generate_visuals.py          # Plot generation
+│   └── outputs/                     # Generated visualizations
+│
+├── 📄 reports/                 # Auto-generated reports
+│   ├── EDA_SUMMARY.md
+│   ├── PRIORITY_METRICS.md
+│   ├── MODEL_METRICS.md
+│   └── SCHEDULER_RESULTS.md
+│
+├── 💾 data/                    # Data storage (layered approach)
+│   ├── bronze/                      # Raw scraped data
+│   ├── silver/                      # Parsed structured data
+│   └── gold/                        # Analysis-ready data
+│       ├── prioritized_cases.csv
+│       ├── optimized_schedule.csv
+│       └── case_duration_analysis.csv
+│
+├── 🗄️ models/                  # Phase 1: Data Models
+│   └── data_models.py               # SQLAlchemy ORM schemas
+│
+├── 🌐 ingest/                  # Phase 1: Web Scraping
 │   ├── cause_list_ingest.py
 │   ├── case_status_ingest.py
 │   └── judgment_ingest.py
 │
-├── parse/                   # Data parsing modules
+├── 🔧 parse/                   # Phase 1: Data Parsing
 │   ├── parse_cause_list.py
-│   ├── parse_case_status.py
-│   └── parse_judgment.py
+│   └── parse_case_status.py
 │
-├── normalize/               # Data normalization
-│   ├── normalize_entities.py
-│   └── clean_text_utils.py
+├── 🔄 pipelines/               # Workflow Orchestration
+│   ├── phase1_pipeline.py           # Data collection pipeline
+│   └── phase2_pipeline.py           # Analytics pipeline (TBD)
 │
-├── pipelines/               # ETL workflows
-│   └── phase1_pipeline.py  # Prefect orchestration
+├── 🛠️ utils/                   # Shared Utilities
+│   ├── db_utils.py                  # Database operations
+│   ├── logging_utils.py             # Structured logging
+│   └── io_utils.py                  # File I/O helpers
 │
-├── validation/              # Data quality checks
-│   └── data_validation.py
+├── ⚙️ configs/                 # Configuration
+│   ├── sources.yaml                 # Data source metadata
+│   └── settings.env                 # Environment variables
 │
-├── utils/                   # Shared utilities
-│   ├── http_utils.py       # HTTP requests and retries
-│   ├── io_utils.py         # File I/O operations
-│   ├── logging_utils.py    # Structured logging
-│   └── db_utils.py         # Database operations
-│
-├── configs/                 # Configuration files
-│   ├── sources.yaml        # Data source metadata
-│   └── settings.env        # Environment variables
-│
-├── documentation/           # Project documentation
+├── 📚 documentation/           # Technical Documentation
 │   ├── DATA_DICTIONARY.md
-│   ├── SOURCE_REGISTRY.md
-│   └── PIPELINE_OVERVIEW.md
+│   ├── PIPELINE_OVERVIEW.md
+│   └── MODEL_DESIGN.md
 │
-├── logs/                    # Log files (auto-generated)
-│
-├── requirements.txt         # Python dependencies
-└── README.md               # This file
+├── requirements.txt            # Python dependencies
+├── PHASE2_SUMMARY.md          # Phase 2 implementation details
+├── PHASE2_QUICKSTART.md       # Phase 2 quick start guide
+└── README.md                  # This file
 ```
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.9 or higher
-- PostgreSQL 13+ (or SQLite for development)
-- Git
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/RudranshKaran/justicegraph.git
-   cd justicegraph
-   ```
-
-2. **Create virtual environment**
-   ```powershell
-   # Windows PowerShell
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-   ```
-
-3. **Install dependencies**
-   ```powershell
-   pip install -r requirements.txt
-   ```
 
 4. **Configure environment**
    ```powershell
