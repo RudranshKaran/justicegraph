@@ -25,22 +25,25 @@ Transform judicial operations through:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start - MVP Dashboard
 
-### For Phase 2 (Analytics & Optimization)
+### Launch the Interactive Dashboard
 
 ```bash
 # Install dependencies
-pip install -r requirements.txt
+pip install -r requirements_mvp.txt
 
-# Start exploring with Jupyter
-jupyter notebook analysis/eda_overview.ipynb
+# Generate sample data (if not already done)
+python generate_sample_data.py
 
-# Or run quick analytics
-python -c "from modeling.priority_model import calculate_priority_scores; df = calculate_priority_scores(); print(f'Prioritized {len(df)} cases')"
+# Launch the dashboard
+python run_mvp.py
 ```
 
-**📘 See [PHASE2_QUICKSTART.md](PHASE2_QUICKSTART.md) for detailed Phase 2 guide**
+**Dashboard will open at:** `http://localhost:8501`
+
+**📘 See [docs/MVP_README.md](docs/MVP_README.md) for complete MVP guide**  
+**📘 See [docs/QUICK_START.md](docs/QUICK_START.md) for quick reference**
 
 ---
 
@@ -49,58 +52,57 @@ python -c "from modeling.priority_model import calculate_priority_scores; df = c
 ```
 JusticeGraph/
 │
-├── 📊 analysis/                # Phase 2: Exploratory Data Analysis
+├── 🎨 frontend/                # MVP Dashboard
+│   └── app.py                       # Streamlit web interface
+│
+├── 📊 analysis/                # Exploratory Data Analysis
 │   ├── case_duration_analysis.py    # Case duration metrics
 │   ├── backlog_trends.py            # Backlog and disposal rates
 │   ├── court_performance.py         # Court efficiency analysis
 │   └── eda_overview.ipynb           # Interactive EDA notebook
 │
-├── 🤖 modeling/                # Phase 2: ML Models
+├── 🤖 modeling/                # Machine Learning Models
 │   ├── priority_model.py            # Case prioritization engine
 │   ├── duration_prediction.py       # ML duration forecasting
 │   └── model_utils.py               # Feature engineering utilities
 │
-├── ⚙️ optimization/            # Phase 2: Scheduling Engine
+├── ⚙️ optimization/            # Scheduling Engine
 │   ├── scheduler.py                 # Intelligent hearing scheduler
 │   ├── constraint_builder.py        # Scheduling constraints
 │   └── optimization_utils.py        # Validation and metrics
 │
-├── 📈 visualization/           # Phase 2: Charts & Dashboards
-│   ├── generate_visuals.py          # Plot generation
-│   └── outputs/                     # Generated visualizations
+├── 📈 visualization/           # Charts & Visualizations
+│   └── generate_visuals.py          # Plot generation
 │
-├── 📄 reports/                 # Auto-generated reports
-│   ├── EDA_SUMMARY.md
-│   ├── PRIORITY_METRICS.md
-│   ├── MODEL_METRICS.md
-│   └── SCHEDULER_RESULTS.md
-│
-├── 💾 data/                    # Data storage (layered approach)
+├── 💾 data/                    # Data Storage (Layered)
 │   ├── bronze/                      # Raw scraped data
 │   ├── silver/                      # Parsed structured data
 │   └── gold/                        # Analysis-ready data
 │       ├── prioritized_cases.csv
 │       ├── optimized_schedule.csv
-│       └── case_duration_analysis.csv
+│       ├── case_duration_analysis.csv
+│       └── backlog_trends.csv
 │
-├── 🗄️ models/                  # Phase 1: Data Models
+├── 🗄️ models/                  # Data Models
 │   └── data_models.py               # SQLAlchemy ORM schemas
 │
-├── 🌐 ingest/                  # Phase 1: Web Scraping
+├── 🌐 ingest/                  # Web Scraping
 │   ├── cause_list_ingest.py
 │   ├── case_status_ingest.py
 │   └── judgment_ingest.py
 │
-├── 🔧 parse/                   # Phase 1: Data Parsing
-│   ├── parse_cause_list.py
-│   └── parse_case_status.py
+├── 🔧 parse/                   # Data Parsing
+│   └── parse_cause_list.py
+│
+├── 🔄 normalize/               # Data Cleaning
+│   └── clean_text_utils.py
 │
 ├── 🔄 pipelines/               # Workflow Orchestration
-│   ├── phase1_pipeline.py           # Data collection pipeline
-│   └── phase2_pipeline.py           # Analytics pipeline (TBD)
+│   └── phase1_pipeline.py           # Data collection pipeline
 │
 ├── 🛠️ utils/                   # Shared Utilities
 │   ├── db_utils.py                  # Database operations
+│   ├── http_utils.py                # HTTP utilities
 │   ├── logging_utils.py             # Structured logging
 │   └── io_utils.py                  # File I/O helpers
 │
@@ -108,122 +110,22 @@ JusticeGraph/
 │   ├── sources.yaml                 # Data source metadata
 │   └── settings.env                 # Environment variables
 │
-├── 📚 documentation/           # Technical Documentation
-│   ├── DATA_DICTIONARY.md
-│   ├── PIPELINE_OVERVIEW.md
-│   └── MODEL_DESIGN.md
+├── 📚 docs/                    # Documentation
+│   ├── MVP_README.md                # MVP setup guide
+│   ├── QUICK_START.md               # Quick reference
+│   ├── DATA_DICTIONARY.md           # Data schema
+│   ├── PIPELINE_OVERVIEW.md         # Pipeline architecture
+│   ├── PHASE2_SUMMARY.md            # Phase 2 details
+│   └── ISSUES_RESOLVED.md           # Bug fixes and resolutions
 │
-├── requirements.txt            # Python dependencies
-├── PHASE2_SUMMARY.md          # Phase 2 implementation details
-├── PHASE2_QUICKSTART.md       # Phase 2 quick start guide
+├── generate_sample_data.py    # Sample data generator
+├── run_mvp.py                 # MVP launcher
+├── setup_mvp.py               # Automated setup
+├── test_mvp.py                # Test suite
+├── validate_mvp.py            # Validation script
+├── requirements_mvp.txt       # Dependencies
 └── README.md                  # This file
 ```
-
-4. **Configure environment**
-   ```powershell
-   # Copy example environment file
-   cp configs/settings.env.example configs/settings.env
-   
-   # Edit settings.env with your database credentials
-   ```
-
-5. **Initialize database**
-   ```python
-   python -c "from utils.db_utils import DatabaseManager; db = DatabaseManager(); db.create_tables()"
-   ```
-
-### Configuration
-
-Edit `configs/settings.env`:
-
-```env
-# Database Configuration
-DATABASE_URL=postgresql://username:password@localhost:5432/justicegraph
-
-# Or use SQLite for development
-# DATABASE_URL=sqlite:///justicegraph.db
-
-# Logging
-LOG_LEVEL=INFO
-
-# Scraping Configuration
-REQUEST_TIMEOUT=60
-RATE_LIMIT_DELAY=2.0
-```
-
-## 📚 Usage Examples
-
-### 1. Scrape Cause Lists
-
-```python
-from ingest.cause_list_ingest import CauseListScraper
-from datetime import date
-
-# Initialize scraper
-scraper = CauseListScraper(
-    court_code='DL-HC',
-    base_url='https://delhihighcourt.nic.in'
-)
-
-# Fetch today's cause list
-file_path = scraper.fetch_cause_list(date.today())
-print(f"Saved to: {file_path}")
-```
-
-### 2. Parse Cause Lists
-
-```python
-from parse.parse_cause_list import CauseListParser
-
-# Parse HTML to structured data
-parser = CauseListParser()
-output_path = parser.parse_and_save('data/bronze/cause_list_DL_HC_20231115.html')
-
-# Load parsed data
-import pandas as pd
-df = pd.read_csv(output_path)
-print(f"Parsed {len(df)} cases")
-```
-
-### 3. Normalize and Store Data
-
-```python
-from normalize.normalize_entities import normalize_case_data
-from utils.db_utils import DatabaseManager
-
-# Normalize data
-normalized_df = normalize_case_data(df)
-
-# Store in database
-db = DatabaseManager()
-# Insert logic here
-```
-
-### 4. Run Complete Pipeline
-
-```python
-from pipelines.phase1_pipeline import run_phase1_pipeline
-
-# Execute full ETL workflow
-run_phase1_pipeline(
-    court_code='DL-HC',
-    start_date='2023-11-01',
-    end_date='2023-11-07'
-)
-```
-
-## 🔧 Data Models
-
-### Core Entities
-
-- **Court**: Court metadata (name, code, location, jurisdiction)
-- **Judge**: Judge information (name, designation, court assignment)
-- **Case**: Legal case details (number, type, parties, status, dates)
-- **Hearing**: Individual hearing records (date, judge, outcome)
-- **CauseList**: Daily hearing schedules
-- **Judgment**: Court orders and judgments
-
-See `documentation/DATA_DICTIONARY.md` for complete field descriptions.
 
 ## 📊 Data Sources
 
@@ -239,45 +141,40 @@ See `documentation/DATA_DICTIONARY.md` for complete field descriptions.
 - **IndianKanoon**: Judgment repository
 - **District Courts**: District-level data
 
-See `documentation/SOURCE_REGISTRY.md` for detailed source information.
+## 📈 MVP Features
+
+### Analytics Dashboard 📊
+- **Case Volume Trends**: Track daily case filing and disposal rates
+- **Backlog Analysis**: Visualize pending cases by court and case type
+- **Court Performance**: Compare efficiency metrics across jurisdictions
+- **Duration Analysis**: Analyze average case resolution times
+
+### Case Prioritization 🎯
+- **Smart Scoring**: ML-driven priority calculation based on:
+  - Case age and urgency
+  - Case type and complexity
+  - Historical hearing patterns
+- **Filter & Export**: Search by priority, court, or case type
+- **CSV Download**: Export prioritized cases for further analysis
+
+### Optimized Scheduling 📅
+- **Intelligent Allocation**: OR-Tools based constraint optimization
+- **Judge Workload Balancing**: Ensure equitable case distribution
+- **Timeline Visualization**: Gantt chart of scheduled hearings
+- **Schedule Export**: Download hearing calendars
 
 ## 🧪 Testing
 
-Run the test pipeline:
+Run the MVP test suite:
 
 ```powershell
-python test_pipeline.py
+python test_mvp.py
 ```
 
-Run unit tests:
+Validate MVP setup:
 
 ```powershell
-pytest tests/ -v --cov=.
-```
-
-## 📈 Pipeline Workflow
-
-```
-1. INGEST (Bronze Layer)
-   ↓ Scrape HTML/PDF/JSON from sources
-   ↓ Save with metadata and timestamps
-   
-2. PARSE (Silver Layer)
-   ↓ Extract structured data from raw files
-   ↓ Convert to DataFrames/CSV
-   
-3. NORMALIZE (Silver → Gold)
-   ↓ Clean text (remove honorifics, standardize names)
-   ↓ Normalize case numbers, dates, court names
-   ↓ Resolve entity references
-   
-4. VALIDATE
-   ↓ Check for nulls, duplicates, invalid formats
-   ↓ Verify referential integrity
-   
-5. LOAD (Gold Layer → Database)
-   ↓ Insert/upsert to PostgreSQL
-   ↓ Update indexes and relationships
+python validate_mvp.py
 ```
 
 ## 🛠️ Development
@@ -348,23 +245,33 @@ This project is for **research and educational purposes only**. Always respect t
 
 ## 🎯 Roadmap
 
-### Phase 1 (Current)
-- ✅ Data collection infrastructure
-- ✅ Parsing and normalization
-- ✅ Database integration
-- ✅ Data validation
+### Phase 1 - Data Infrastructure ✅
+- ✅ Data collection and scraping framework
+- ✅ Parsing and normalization pipeline
+- ✅ Database integration (SQLAlchemy ORM)
+- ✅ Data validation and quality checks
 
-### Phase 2 (Upcoming)
-- AI-driven case prioritization
-- Backlog prediction models
-- Judge assignment optimization
-- Interactive dashboards
+### Phase 2 - Analytics & Intelligence ✅
+- ✅ Exploratory Data Analysis (EDA)
+- ✅ AI-driven case prioritization engine
+- ✅ ML-based duration prediction models
+- ✅ Intelligent hearing scheduler (OR-Tools)
+- ✅ Interactive Streamlit dashboard
+- ✅ Data visualizations (Plotly)
 
-### Phase 3 (Future)
-- Real-time data updates
-- Mobile application
-- Public API
-- Multi-language support
+### Phase 3 - Production Deployment 🔄
+- 🔄 Real-time data updates
+- 🔄 REST API development
+- 🔄 User authentication and roles
+- 🔄 Mobile-responsive interface
+- 🔄 Cloud deployment (AWS/Azure)
+
+### Phase 4 - Advanced Features 📋
+- 📋 Natural Language Processing for judgments
+- 📋 Predictive analytics for case outcomes
+- 📋 Multi-language support (Hindi, regional languages)
+- 📋 Integration with eCourts portal
+- 📋 Public API for researchers
 
 ## 📞 Contact
 
